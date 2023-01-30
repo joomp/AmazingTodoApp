@@ -1,0 +1,5 @@
+<h3>Done:</h3>
+<ul *ngIf="dones.length">
+  <app-done-item [task]="done" *ngFor="let done of dones"></app-done-item>
+</ul>
+<div *ngIf="!dones.length">There are no done tasks</div>

@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+  --light: #E2E2E2;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #202124;
+  color: var(--light)
+}
+
+.container {
+  max-width: 960px;
+  margin: auto;
+}
+
