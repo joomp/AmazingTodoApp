@@ -1,0 +1,6 @@
+.form-control {
+  display: grid;
+  grid-template-columns: 1em auto;
+  gap: 1ch;
+  align-items: baseline;
+}

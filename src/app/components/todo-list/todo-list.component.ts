@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Task from '../../Task';
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -7,5 +8,11 @@ import Task from '../../Task';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent {
-  todos: Task[] = [{ text: 'Buy milk' }, { text: 'Bake a cake' }];
+  todos: Task[] = [];
+
+  constructor(private taskService: TaskService) {}
+
+  ngOnInit(): void {
+    this.taskService.getTodoTasks().subscribe(tasks => (this.todos = tasks));
+  }
 }

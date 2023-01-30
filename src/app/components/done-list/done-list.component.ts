@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import Task from '../../Task';
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-done-list',
@@ -7,5 +8,11 @@ import Task from '../../Task';
   styleUrls: ['./done-list.component.scss'],
 })
 export class DoneListComponent {
-  dones: Task[] = [{ text: 'Buy eggs' }, { text: 'Clean dishes' }];
+  dones: Task[] = [];
+
+  constructor(private taskService: TaskService) {}
+
+  ngOnInit(): void {
+    this.taskService.getTodoTasks().subscribe(tasks => (this.dones = tasks));
+  }
 }
