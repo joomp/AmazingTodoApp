@@ -1,8 +1,24 @@
 <li>
-  <form>
-    <label class="form-control done-item">
-      <input type="checkbox" />
-      {{ task.text }}
-    </label>
-  </form>
+  <div class="list-item">
+    <div class="label">
+      <div *ngIf="!task.done">
+        <span class="cdk-visually-hidden"> To do task: </span>
+        <mat-icon> check_box </mat-icon>
+      </div>
+      <div *ngIf="task.done">
+        <span class="cdk-visually-hidden">Done task:</span>
+        <mat-icon> check_box_outline_blank </mat-icon>
+      </div>
+
+      <span> {{ task.text }} </span>
+    </div>
+    <div class="controls">
+      <button mat-icon-button>
+        <mat-icon aria-label="Edit button">edit</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon aria-label="Delete button">delete</mat-icon>
+      </button>
+    </div>
+  </div>
 </li>

@@ -1,13 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
 :root{
   --light: #E2E2E2;
+  --darker-gray: #202124;
+  --gray: #2d2e30;
 }
 
 body, html {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #202124;
+  background-color: var(--darker-gray);
   color: var(--light)
 }
 
@@ -44,3 +49,5 @@ input[type="checkbox"]:disabled {
   --form-control-color: var(--form-control-disabled);
   color: var(--form-control-disabled);
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

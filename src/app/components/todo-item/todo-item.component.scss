@@ -1,6 +1,31 @@
-.form-control {
+.label{
+  cursor: pointer;
   display: grid;
-  grid-template-columns: 1em auto;
+  grid-template-columns: auto 1fr;
+  align-items: center;
   gap: 1ch;
-  align-items: baseline;
+}
+
+.list-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1ch;
+  padding: 4px;
+  margin: 4px 0;
+  border: var(--gray) solid 1px;
+
+}
+
+.controls {
+  justify-self: end;
+}
+
+.label:hover {
+  filter: brightness(70%);
+}
+
+.label:active{
+  filter: brightness(50%);
+  
 }

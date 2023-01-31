@@ -1,27 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import Task from '../Task';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  private doneTasks: Task[] = [
-    { text: 'Buy eggs', done: true },
-    { text: 'Clean dishes', done: true },
-  ];
-  private todoTasks: Task[] = [
-    { text: 'Buy eggs', done: false },
-    { text: 'Clean dishes', done: false },
-  ];
+  private tasks = new BehaviorSubject([] as Task[]);
 
-  constructor() {}
-
-  getDoneTasks(): Observable<Task[]> {
-    return of(this.doneTasks);
+  constructor() {
+    this.resetTasks();
   }
 
-  getTodoTasks(): Observable<Task[]> {
-    return of(this.todoTasks);
+  getTasks(): Observable<Task[]> {
+    return this.tasks;
+  }
+
+  resetTasks() {
+    this.tasks.next([
+      { text: 'Buy eggs', done: true },
+      { text: 'Clean dishes', done: true },
+      { text: 'Bake a cake', done: false },
+      { text: 'Buy milk', done: false },
+      {
+        text: 'This is a long todo task. I do not want to do this, because it is so long.',
+        done: false,
+      },
+    ]);
   }
 }

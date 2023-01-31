@@ -7,12 +7,31 @@ import { TaskService } from 'src/app/services/task.service';
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
 })
-export class TodoListComponent {
+export class TodoListComponent implements OnInit {
   todos: Task[] = [];
 
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
-    this.taskService.getTodoTasks().subscribe(tasks => (this.todos = tasks));
+    this.taskService
+      .getTasks()
+      .subscribe(tasks => (this.todos = tasks.filter(t => !t.done)));
   }
+
+  // deleteTask(task: Task) {
+  //   this.taskService
+  //     .deleteTask(task)
+  //     .subscribe(
+  //       () => (this.tasks = this.tasks.filter((t) => t.id !== task.id))
+  //     );
+  // }
+
+  // toggleReminder(task: Task) {
+  //   task.reminder = !task.reminder;
+  //   this.taskService.updateTaskReminder(task).subscribe();
+  // }
+
+  // addTask(task: Task) {
+  //   this.taskService.addTask(task).subscribe((task) => this.tasks.push(task));
+  // }
 }

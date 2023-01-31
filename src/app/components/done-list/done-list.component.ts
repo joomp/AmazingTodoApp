@@ -13,6 +13,8 @@ export class DoneListComponent {
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
-    this.taskService.getTodoTasks().subscribe(tasks => (this.dones = tasks));
+    this.taskService
+      .getTasks()
+      .subscribe(tasks => (this.dones = tasks.filter(t => t.done)));
   }
 }
