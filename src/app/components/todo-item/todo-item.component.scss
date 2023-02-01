@@ -17,8 +17,13 @@
 
 }
 
+.done {
+  text-decoration: line-through;
+}
+
 .controls {
   justify-self: end;
+  display: flex;
 }
 
 .label:hover {
@@ -27,5 +32,4 @@
 
 .label:active{
   filter: brightness(50%);
-  
 }

@@ -1,7 +1,0 @@
-<section>
-  <h3>To do:</h3>
-  <ul *ngIf="todos.length">
-    <app-todo-item [task]="todo" *ngFor="let todo of todos"></app-todo-item>
-  </ul>
-  <div *ngIf="!todos.length">There is nothing to do</div>
-</section>

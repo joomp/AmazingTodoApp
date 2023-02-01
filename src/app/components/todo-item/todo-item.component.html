@@ -1,22 +1,21 @@
 <li>
   <div class="list-item">
-    <div class="label">
+    <div class="label" (click)="onToggleClick(task)">
       <div *ngIf="!task.done">
         <span class="cdk-visually-hidden"> To do task: </span>
-        <mat-icon> check_box </mat-icon>
+        <mat-icon> check_box_outline_blank </mat-icon>
       </div>
       <div *ngIf="task.done">
         <span class="cdk-visually-hidden">Done task:</span>
-        <mat-icon> check_box_outline_blank </mat-icon>
+        <mat-icon> check_box </mat-icon>
       </div>
-
-      <span> {{ task.text }} </span>
+      <span [class.done]="task.done"> {{ task.text }} </span>
     </div>
     <div class="controls">
-      <button mat-icon-button>
+      <button mat-icon-button (click)="onEditSave(task)">
         <mat-icon aria-label="Edit button">edit</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="onDeleteClick(task)">
         <mat-icon aria-label="Delete button">delete</mat-icon>
       </button>
     </div>

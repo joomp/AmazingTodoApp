@@ -6,7 +6,8 @@ import Task from '../Task';
   providedIn: 'root',
 })
 export class TaskService {
-  private tasks = new BehaviorSubject([] as Task[]);
+  private _tasks = [] as Task[];
+  private tasks = new BehaviorSubject(this._tasks);
 
   constructor() {
     this.resetTasks();
@@ -16,16 +17,41 @@ export class TaskService {
     return this.tasks;
   }
 
+  deleteTask(id: number) {
+    this._tasks = this._tasks.filter(t => t.id !== id);
+    this.tasks.next(this._tasks);
+  }
+
+  toggleDone(task: Task) {
+    this._tasks = this._tasks.map(t =>
+      t.id === task.id ? { ...t, done: !t.done } : t
+    );
+    this.tasks.next(this._tasks);
+  }
+
+  addTask(text: string) {
+    const newTask: Task = { text, id: this.generateId(), done: false };
+    this._tasks.push(newTask);
+    this.tasks.next(this._tasks);
+  }
+
   resetTasks() {
-    this.tasks.next([
-      { text: 'Buy eggs', done: true },
-      { text: 'Clean dishes', done: true },
-      { text: 'Bake a cake', done: false },
-      { text: 'Buy milk', done: false },
+    this._tasks = [
+      { text: 'Buy eggs', done: true, id: 1 },
+      { text: 'Clean dishes', done: true, id: 2 },
+      { text: 'Bake a cake', done: false, id: 3 },
+      { text: 'Buy milk', done: false, id: 4 },
       {
-        text: 'This is a long todo task. I do not want to do this, because it is so long.',
+        text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum fuga magnam sunt enim quam iste eos incidunt laudantium vel et excepturi hic ipsum nulla, possimus deserunt recusandae non aperiam odio.',
         done: false,
+        id: 5,
       },
-    ]);
+    ];
+    this.tasks.next(this._tasks);
+  }
+
+  private generateId() {
+    const maxId = Math.max(...this._tasks.map(t => t.id));
+    return maxId + 1;
   }
 }
