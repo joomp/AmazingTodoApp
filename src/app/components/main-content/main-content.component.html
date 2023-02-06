@@ -3,7 +3,7 @@
     <section>
       <div class="todo-title">
         <app-task-creator class="task-creator" />
-        <h3>To do:</h3>
+        <h2>To do:</h2>
       </div>
 
       <ul *ngIf="todos.length">
@@ -17,7 +17,7 @@
       <div *ngIf="!todos.length">There is nothing to do</div>
     </section>
     <section>
-      <h3>Done:</h3>
+      <h2>Done:</h2>
       <ul *ngIf="dones.length">
         <app-todo-item
           [task]="task"
