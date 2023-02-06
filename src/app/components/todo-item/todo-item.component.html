@@ -23,10 +23,10 @@
           {{ task.text }}
         </span>
         <div class="controls">
-          <button mat-icon-button (click)="openEdit()">
+          <button mat-mini-fab color="primary" (click)="openEdit()">
             <mat-icon aria-label="Edit button">edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="onDeleteClick(task)">
+          <button mat-mini-fab color="primary" (click)="onDeleteClick(task)">
             <mat-icon aria-label="Delete button">delete</mat-icon>
           </button>
         </div>
@@ -45,8 +45,10 @@
           </mat-form-field>
         </div>
         <div class="controls">
-          <button (click)="closeEdit()">Cancel</button>
-          <input type="submit" value="Save" />
+          <button mat-flat-button color="primary" (click)="closeEdit()">
+            Cancel
+          </button>
+          <button mat-flat-button color="primary" type="submit">Save</button>
         </div>
       </form>
     </ng-template>

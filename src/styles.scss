@@ -1,10 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 
 @use '@angular/material' as mat;
+@import '@angular/material/theming';
+@import './palettes.scss';
+
 @include mat.core();
 
+$my-primary: mat.define-palette($primary-palette, 400);
+$my-accent: mat.define-palette($secondary-palette, A200, A100, A400);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+ )
+));
+
+@include mat.all-component-themes($my-theme);
+
 :root{
-  --light: #E2E2E2;
+  --light: #fff;
   --darker-gray: #202124;
   --gray: #2d2e30;
 }
@@ -13,6 +28,8 @@ body, html {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+
   background-color: var(--darker-gray);
   color: var(--light)
 }
@@ -21,34 +38,3 @@ body, html {
   max-width: 960px;
   margin: auto;
 }
-
-input[type="checkbox"] {
-  appearance: none;
-  margin: 0;
-  width: 1.15em;
-  height: 1.15em;
-  border: 0.15em solid;
-  border-radius: 0.15em;
-  display: grid;
-  place-content: center;
-}
-
-input[type="checkbox"]::before {
-  content: "";
-  width: 0.65em;
-  height: 0.65em;
-  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-  background-color: var(--light);
-  transform: scale(0);
-}
-
-input[type="checkbox"]:checked::before {
-  transform: scale(1);
-}
-
-input[type="checkbox"]:disabled {
-  --form-control-color: var(--form-control-disabled);
-  color: var(--form-control-disabled);
-}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
