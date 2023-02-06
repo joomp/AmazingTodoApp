@@ -29,6 +29,11 @@ export class TaskService {
     this.tasks.next(this._tasks);
   }
 
+  updateTask(task: Task) {
+    this._tasks = this._tasks.map(t => (t.id === task.id ? task : t));
+    this.tasks.next(this._tasks);
+  }
+
   addTask(text: string) {
     const newTask: Task = { text, id: this.generateId(), done: false };
     this._tasks.push(newTask);

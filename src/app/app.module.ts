@@ -10,6 +10,7 @@ import { MaterialModule } from './shared/modules/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainContentComponent } from './components/main-content/main-content.component';
 import { FancyButtonComponent } from './components/fancy-button/fancy-button.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { FancyButtonComponent } from './components/fancy-button/fancy-button.com
     MaterialModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

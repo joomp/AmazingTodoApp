@@ -42,6 +42,6 @@ export class MainContentComponent implements OnInit, OnDestroy {
   }
 
   onEdit(task: Task) {
-    console.log('edit');
+    this.taskService.updateTask(task);
   }
 }

@@ -1,20 +1,32 @@
-.label{
+.label {
   cursor: pointer;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 1ch;
+}
+
+.wrap {
+  padding: 8px 4px;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .list-item {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 1ch;
   padding: 4px;
   margin: 4px 0;
   border: var(--gray) solid 1px;
+  min-height: 58px;
+}
 
+.container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  width: 100%;
+  gap: 1ch;
 }
 
 .done {
