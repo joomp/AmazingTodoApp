@@ -43,7 +43,7 @@ export class TaskService {
   resetTasks() {
     this._tasks = [
       { text: 'Buy eggs', done: true, id: 1 },
-      { text: 'Clean dishes', done: true, id: 2 },
+      { text: 'Do the dishes', done: true, id: 2 },
       { text: 'Bake a cake', done: false, id: 3 },
       { text: 'Buy milk', done: false, id: 4 },
       {

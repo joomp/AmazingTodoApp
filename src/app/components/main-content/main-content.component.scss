@@ -22,3 +22,14 @@ ul {
 section {
   margin: 32px 0;
 }
+
+.task-creator {
+  float: right;
+}
+
+.todo-title {
+  overflow: hidden;
+  h3 {
+    word-break: keep-all;
+  }
+}

@@ -1,7 +1,11 @@
 <div class="container">
   <main class="content">
     <section>
-      <h3>To do:</h3>
+      <div class="todo-title">
+        <app-task-creator class="task-creator" />
+        <h3>To do:</h3>
+      </div>
+
       <ul *ngIf="todos.length">
         <app-todo-item
           [task]="task"
@@ -12,7 +16,6 @@
       </ul>
       <div *ngIf="!todos.length">There is nothing to do</div>
     </section>
-
     <section>
       <h3>Done:</h3>
       <ul *ngIf="dones.length">

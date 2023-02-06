@@ -29,7 +29,6 @@ export class MainContentComponent implements OnInit, OnDestroy {
   }
 
   onDeleteTask(task: Task) {
-    console.log('del from main');
     this.taskService.deleteTask(task.id);
   }
 

@@ -11,6 +11,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainContentComponent } from './components/main-content/main-content.component';
 import { FancyButtonComponent } from './components/fancy-button/fancy-button.component';
 import { FormsModule } from '@angular/forms';
+import { AddTaskButton } from './components/add-task-button/add-task-button.component';
+import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { FormsModule } from '@angular/forms';
     TodoItemComponent,
     MainContentComponent,
     FancyButtonComponent,
+    AddTaskButton,
+    AddTaskDialogComponent,
   ],
   imports: [
     BrowserModule,
