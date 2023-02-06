@@ -1,45 +1,38 @@
 <li>
-  <div class="list-item">
-    <div (click)="toggleDone(task)">
-      <ng-container *ngIf="task.done; else taskNotDone">
-        <div>
-          <span class="cdk-visually-hidden">Done task:</span>
-          <mat-icon> check_box </mat-icon>
-        </div>
-      </ng-container>
-      <ng-template #taskNotDone>
-        <div>
-          <span class="cdk-visually-hidden"> To do task: </span>
-          <mat-icon> check_box_outline_blank </mat-icon>
-        </div>
-      </ng-template>
-    </div>
-    <ng-container *ngIf="!enableEdit; else editBlock">
-      <div class="container">
-        <span
-          [class.done]="task.done"
-          class="label wrap"
-          (click)="toggleDone(task)">
+  <ng-container *ngIf="!enableEdit; else editBlock">
+    <div class="list-item list-item--editDisabled">
+      <div (click)="toggleDone(task)" class="label label-container">
+        <app-done-indicator [done]="task.done" />
+        <span [class.done]="task.done" class="wrap" (click)="toggleDone(task)">
           {{ task.text }}
         </span>
-        <div class="controls">
-          <button mat-mini-fab color="primary" (click)="openEdit()">
-            <mat-icon aria-label="Edit button">edit</mat-icon>
-          </button>
-          <button mat-mini-fab color="primary" (click)="onDeleteClick(task)">
-            <mat-icon aria-label="Delete button">delete</mat-icon>
-          </button>
-        </div>
       </div>
-    </ng-container>
-    <ng-template #editBlock>
+      <div class="controls">
+        <button mat-mini-fab color="primary" (click)="openEdit()">
+          <mat-icon aria-label="Edit button">edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="onDeleteClick(task)">
+          <mat-icon aria-label="Delete button">delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #editBlock>
+    <div class="list-item list-item--editEnabled">
+      <app-done-indicator
+        [done]="task.done"
+        (click)="toggleDone(task)"
+        class="label" />
       <form action="" class="container" #f="ngForm" (ngSubmit)="onEditSave(f)">
         <div class="wrap">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field
+            class="full-width"
+            appearance="fill"
+            subscriptSizing="dynamic">
             <textarea
               [(ngModel)]="text"
               name="edit"
-              minlength="1"
               matInput
               cdkTextareaAutosize></textarea>
           </mat-form-field>
@@ -51,6 +44,6 @@
           <button mat-flat-button color="primary" type="submit">Save</button>
         </div>
       </form>
-    </ng-template>
-  </div>
+    </div>
+  </ng-template>
 </li>

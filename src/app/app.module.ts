@@ -13,6 +13,7 @@ import { FancyButtonComponent } from './components/fancy-button/fancy-button.com
 import { FormsModule } from '@angular/forms';
 import { AddTaskButton } from './components/add-task-button/add-task-button.component';
 import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
+import { DoneIndicatorComponent } from './components/done-indicator/done-indicator.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-di
     FancyButtonComponent,
     AddTaskButton,
     AddTaskDialogComponent,
+    DoneIndicatorComponent,
   ],
   imports: [
     BrowserModule,

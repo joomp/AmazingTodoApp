@@ -1,0 +1,12 @@
+<ng-container *ngIf="done; else taskNotDone">
+  <div>
+    <span class="cdk-visually-hidden">Done task:</span>
+    <mat-icon> check_box </mat-icon>
+  </div>
+</ng-container>
+<ng-template #taskNotDone>
+  <div>
+    <span class="cdk-visually-hidden"> To do task: </span>
+    <mat-icon> check_box_outline_blank </mat-icon>
+  </div>
+</ng-template>

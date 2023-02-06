@@ -2,6 +2,13 @@
   cursor: pointer;
 }
 
+.label-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1ch;
+}
+
 .wrap {
   padding: 8px 4px;
 }
@@ -12,13 +19,22 @@
 
 .list-item {
   display: grid;
-  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 1ch;
   padding: 4px;
   margin: 4px 0;
   border: var(--gray) solid 1px;
   min-height: 58px;
+}
+
+.list-item--editEnabled {
+  
+  grid-template-columns: auto 1fr;
+}
+
+.list-item--editDisabled {
+  
+  grid-template-columns: 1fr auto;
 }
 
 .container {
