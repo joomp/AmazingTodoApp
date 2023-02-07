@@ -24,7 +24,7 @@
         [done]="task.done"
         (click)="toggleDone(task)"
         class="label" />
-      <form action="" class="container" #f="ngForm" (ngSubmit)="onEditSave(f)">
+      <form action="" class="edit-form" #f="ngForm" (ngSubmit)="onEditSave(f)">
         <div class="wrap">
           <mat-form-field
             class="full-width"
@@ -38,7 +38,7 @@
           </mat-form-field>
         </div>
         <div class="controls">
-          <button mat-flat-button color="primary" (click)="closeEdit()">
+          <button mat-stroked-button color="warn" (click)="closeEdit()">
             Cancel
           </button>
           <button mat-flat-button color="primary" type="submit">Save</button>

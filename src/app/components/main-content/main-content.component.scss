@@ -9,8 +9,10 @@ h6 {
 
 .content {
   display: flex;
-  padding: 16px 32px;
+  padding: 16px;
   flex-direction: column;
+  max-width: clamp(740px, 80%, 100%);
+  margin: auto;
 }
 
 ul {
