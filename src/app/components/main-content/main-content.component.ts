@@ -17,7 +17,7 @@ export class MainContentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.taskService.getTasks().subscribe(tasks => {
+      this.taskService.tasks$.subscribe(tasks => {
         this.dones = tasks.filter(t => t.done);
         this.todos = tasks.filter(t => !t.done);
       })

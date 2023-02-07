@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import Task from '../Task';
 
 @Injectable({
@@ -7,37 +7,35 @@ import Task from '../Task';
 })
 export class TaskService {
   private _tasks = [] as Task[];
-  private tasks = new BehaviorSubject(this._tasks);
+  private tasksSource = new BehaviorSubject(this._tasks);
+
+  tasks$ = this.tasksSource.asObservable();
 
   constructor() {
     this.resetTasks();
   }
 
-  getTasks(): Observable<Task[]> {
-    return this.tasks;
-  }
-
   deleteTask(id: number) {
     this._tasks = this._tasks.filter(t => t.id !== id);
-    this.tasks.next(this._tasks);
+    this.tasksSource.next(this._tasks);
   }
 
   toggleDone(task: Task) {
     this._tasks = this._tasks.map(t =>
       t.id === task.id ? { ...t, done: !t.done } : t
     );
-    this.tasks.next(this._tasks);
+    this.tasksSource.next(this._tasks);
   }
 
   updateTask(task: Task) {
     this._tasks = this._tasks.map(t => (t.id === task.id ? task : t));
-    this.tasks.next(this._tasks);
+    this.tasksSource.next(this._tasks);
   }
 
   addTask(text: string) {
     const newTask: Task = { text, id: this.generateId(), done: false };
     this._tasks.push(newTask);
-    this.tasks.next(this._tasks);
+    this.tasksSource.next(this._tasks);
   }
 
   resetTasks() {
@@ -52,7 +50,7 @@ export class TaskService {
         id: 5,
       },
     ];
-    this.tasks.next(this._tasks);
+    this.tasksSource.next(this._tasks);
   }
 
   private generateId() {
