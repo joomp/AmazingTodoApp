@@ -1,12 +1,12 @@
 <li>
   <ng-container *ngIf="!enableEdit; else editBlock">
     <div class="list-item list-item--editDisabled">
-      <div (click)="toggleDone(task)" class="label label-container">
+      <button (click)="toggleDone(task)" class="label task-button">
         <app-done-indicator [done]="task.done" />
         <span [class.done]="task.done" class="wrap" (click)="toggleDone(task)">
           {{ task.text }}
         </span>
-      </div>
+      </button>
       <div class="controls">
         <button mat-mini-fab color="primary" (click)="openEdit()">
           <mat-icon aria-label="Edit button">edit</mat-icon>
@@ -20,10 +20,6 @@
 
   <ng-template #editBlock>
     <div class="list-item list-item--editEnabled">
-      <app-done-indicator
-        [done]="task.done"
-        (click)="toggleDone(task)"
-        class="label" />
       <form action="" class="edit-form" #f="ngForm" (ngSubmit)="onEditSave(f)">
         <div class="wrap">
           <mat-form-field

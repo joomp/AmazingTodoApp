@@ -2,13 +2,6 @@
   cursor: pointer;
 }
 
-.label-container {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 1ch;
-}
-
 .wrap {
   padding: 8px 4px;
 }
@@ -19,7 +12,6 @@
 
 .list-item {
   display: grid;
-  align-items: center;
   gap: 1ch;
   padding: 4px;
   margin: 4px 0;
@@ -30,7 +22,7 @@
 }
 
 .list-item--editEnabled {
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
 }
 
 .list-item--editDisabled {
@@ -61,6 +53,7 @@
 
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 4px;
   margin: 4px 1ch;
@@ -72,4 +65,26 @@
 
 .label:active {
   filter: brightness(50%);
+}
+
+.task-button {
+  // Remove button styles
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  text-align: inherit;
+
+  
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1ch;
+}
+
+.task-button:focus {
+  outline: orange 5px auto;
 }
