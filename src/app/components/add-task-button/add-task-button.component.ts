@@ -4,7 +4,7 @@ import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.compo
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
-  selector: 'app-task-creator',
+  selector: 'app-add-task-button',
   templateUrl: './add-task-button.component.html',
   styleUrls: ['./add-task-button.component.scss'],
 })

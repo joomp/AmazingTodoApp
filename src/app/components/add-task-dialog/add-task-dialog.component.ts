@@ -1,6 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import Task from 'src/app/Task';
+
+interface Model {
+  text: string;
+}
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -10,7 +13,7 @@ import Task from 'src/app/Task';
 export class AddTaskDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AddTaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Task
+    @Inject(MAT_DIALOG_DATA) public data: Model
   ) {}
 
   onCancelClick(): void {

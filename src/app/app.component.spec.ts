@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { Component } from '@angular/core';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [
+        AppComponent,
+        MockHeaderComponent,
+        MockMainContentComponent,
+      ],
     }).compileComponents();
   });
 
@@ -17,15 +22,18 @@ describe('AppComponent', () => {
   it(`should have as title 'todo'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('todo');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain(
-      'todo app is running!'
-    );
+    expect(app.title).toEqual('Todo');
   });
 });
+
+@Component({
+  selector: 'app-header',
+  template: '',
+})
+class MockHeaderComponent {}
+
+@Component({
+  selector: 'app-main-content',
+  template: '',
+})
+class MockMainContentComponent {}
