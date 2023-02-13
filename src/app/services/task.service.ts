@@ -11,10 +11,6 @@ export class TaskService {
 
   tasks$ = this.tasksSource.asObservable();
 
-  constructor() {
-    this.resetTasks();
-  }
-
   deleteTask(id: number) {
     this._tasks = this._tasks.filter(t => t.id !== id);
     this.tasksSource.next(this._tasks);
@@ -28,6 +24,8 @@ export class TaskService {
   }
 
   updateTask(task: Task) {
+    if (!this._tasks.some(e => e.id === task.id))
+      throw new Error('Task with the given ID does not exist');
     this._tasks = this._tasks.map(t => (t.id === task.id ? task : t));
     this.tasksSource.next(this._tasks);
   }
@@ -55,6 +53,6 @@ export class TaskService {
 
   private generateId() {
     const maxId = Math.max(...this._tasks.map(t => t.id));
-    return maxId + 1;
+    return Math.max(maxId + 1, 0);
   }
 }

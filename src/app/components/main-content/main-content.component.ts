@@ -13,7 +13,9 @@ export class MainContentComponent implements OnInit, OnDestroy {
   todos: Task[] = [];
   subscription: Subscription = new Subscription();
 
-  constructor(private taskService: TaskService) {}
+  constructor(private taskService: TaskService) {
+    this.taskService.resetTasks();
+  }
 
   ngOnInit(): void {
     this.subscription.add(
