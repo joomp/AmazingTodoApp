@@ -1,32 +1,39 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, InjectionToken } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import Task from '../Task';
+
+export const INITIAL_TASKS = new InjectionToken<Task[]>('INITIAL_TASKS');
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  private _tasks = [] as Task[];
   private tasksSource = new BehaviorSubject(this._tasks);
 
   tasks$ = this.tasksSource.asObservable();
 
+  constructor(@Inject(INITIAL_TASKS) private _tasks: Task[] = []) {}
+
   deleteTask(id: number) {
+    if (!this._tasks.some(e => e.id === id))
+      throw new Error('Task with the given ID does not exist');
     this._tasks = this._tasks.filter(t => t.id !== id);
     this.tasksSource.next(this._tasks);
   }
 
-  toggleDone(task: Task) {
+  toggleDone(id: number) {
+    if (!this._tasks.some(e => e.id === id))
+      throw new Error('Task with the given ID does not exist');
     this._tasks = this._tasks.map(t =>
-      t.id === task.id ? { ...t, done: !t.done } : t
+      t.id === id ? { ...t, done: !t.done } : t
     );
     this.tasksSource.next(this._tasks);
   }
 
-  updateTask(task: Task) {
-    if (!this._tasks.some(e => e.id === task.id))
+  updateTaskText(id: number, text: string) {
+    if (!this._tasks.some(e => e.id === id))
       throw new Error('Task with the given ID does not exist');
-    this._tasks = this._tasks.map(t => (t.id === task.id ? task : t));
+    this._tasks = this._tasks.map(t => (t.id === id ? { ...t, text } : t));
     this.tasksSource.next(this._tasks);
   }
 

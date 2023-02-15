@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { AddTaskButton } from './components/add-task-button/add-task-button.component';
 import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
 import { DoneIndicatorComponent } from './components/done-indicator/done-indicator.component';
+import { INITIAL_TASKS } from './services/task.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { DoneIndicatorComponent } from './components/done-indicator/done-indicat
     BrowserAnimationsModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [{ provide: INITIAL_TASKS, useValue: [] }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

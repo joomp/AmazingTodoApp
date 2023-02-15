@@ -4,10 +4,16 @@ import { MainContentComponent } from './main-content.component';
 import { HeaderComponent } from '../header/header.component';
 import { Component, Input } from '@angular/core';
 import Task from 'src/app/Task';
+import { of } from 'rxjs';
+import { TaskService } from 'src/app/services/task.service';
 
 describe('MainContentComponent', () => {
   let component: MainContentComponent;
   let fixture: ComponentFixture<MainContentComponent>;
+
+  let TaskServiceSpy = jasmine.createSpyObj('TaskService', ['resetTasks'], {
+    tasks$: of([]),
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,6 +23,7 @@ describe('MainContentComponent', () => {
         HeaderComponent,
         MockTodoItem,
       ],
+      providers: [{ provide: TaskService, useValue: TaskServiceSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MainContentComponent);

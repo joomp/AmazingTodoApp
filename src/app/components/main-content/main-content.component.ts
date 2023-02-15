@@ -35,7 +35,7 @@ export class MainContentComponent implements OnInit, OnDestroy {
   }
 
   onToggleDone(task: Task) {
-    this.taskService.toggleDone(task);
+    this.taskService.toggleDone(task.id);
   }
 
   onAddTask(text: string) {
@@ -43,6 +43,6 @@ export class MainContentComponent implements OnInit, OnDestroy {
   }
 
   onEdit(task: Task) {
-    this.taskService.updateTask(task);
+    this.taskService.updateTaskText(task.id, task.text);
   }
 }
