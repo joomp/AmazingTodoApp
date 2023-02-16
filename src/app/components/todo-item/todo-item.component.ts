@@ -14,27 +14,27 @@ export class TodoItemComponent implements OnInit {
   @Output() onEdit: EventEmitter<Task> = new EventEmitter();
 
   enableEdit: boolean = false;
-  text = '';
+  editFormText = '';
 
   ngOnInit(): void {
-    this.text = this.task.text;
+    this.editFormText = this.task.text;
   }
 
   onDeleteClick(task: Task) {
     this.onDelete.emit(task);
   }
 
-  toggleDone(task: Task) {
+  onToggleDoneClick(task: Task) {
     this.onToggleDone.emit(task);
   }
 
   closeEdit() {
-    this.enableEdit = !this.enableEdit;
+    this.enableEdit = false;
   }
 
   openEdit() {
-    this.text = this.task.text;
-    this.enableEdit = !this.enableEdit;
+    this.editFormText = this.task.text;
+    this.enableEdit = true;
   }
 
   onEditSave(f: NgForm) {
