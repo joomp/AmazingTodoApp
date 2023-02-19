@@ -1,5 +1,5 @@
 <li>
-  <ng-container *ngIf="!enableEdit; else editBlock">
+  <ng-container *ngIf="!isEnableEdit; else editBlock">
     <div class="list-item list-item--editDisabled">
       <button (click)="onToggleDoneClick(task)" class="label task-button">
         <app-done-indicator [done]="task.done" />
@@ -42,10 +42,20 @@
           </mat-form-field>
         </div>
         <div class="controls">
-          <button mat-stroked-button color="warn" (click)="closeEdit()">
+          <button
+            mat-stroked-button
+            color="warn"
+            (click)="closeEdit()"
+            data-testid="cancel-button">
             Cancel
           </button>
-          <button mat-flat-button color="primary" type="submit">Save</button>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            data-testid="save-button">
+            Save
+          </button>
         </div>
       </form>
     </div>

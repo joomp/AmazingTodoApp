@@ -108,8 +108,63 @@ describe('TodoItemComponent', () => {
   });
 
   describe('edit enabled', () => {
-    it('should work or something...', () => {
-      // TODO
+    beforeEach(async () => {
+      component.isEnableEdit = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+    it('should have same text as the original task', () => {
+      const de = fixture.debugElement.query(By.css('textarea'));
+      const textContent = de.nativeElement.value;
+      expect(textContent).toContain(task.text);
+    });
+    describe('pristine textarea', () => {
+      it('should close and not emit onEdit on cancel', () => {
+        const spy = spyOn(component.onEdit, 'emit');
+        const de = fixture.debugElement.query(
+          By.css('[data-testid="cancel-button"')
+        );
+        de.triggerEventHandler('click');
+        expect(spy.calls.count()).toBe(0);
+      });
+      it('should close and emit onEdit on save', () => {
+        const spy = spyOn(component.onEdit, 'emit');
+        const de = fixture.debugElement.query(
+          By.css('[data-testid="save-button"')
+        );
+        de.nativeElement.click();
+        expect(spy.calls.count()).toBe(1);
+        expect(spy.calls.first().args[0]).toEqual(task);
+      });
+    });
+    describe('edited textarea', () => {
+      const newTask = {
+        ...task,
+        text: 'This is the new and edited tasks text',
+      };
+      beforeEach(() => {
+        const input = fixture.debugElement.query(By.css('textarea'));
+        input.nativeElement.value = newTask.text;
+        fixture.detectChanges();
+        input.nativeElement.dispatchEvent(new Event('input'));
+      });
+      it('should close and not emit onEdit on cancel', () => {
+        const spy = spyOn(component.onEdit, 'emit');
+        const de = fixture.debugElement.query(
+          By.css('[data-testid="cancel-button"')
+        );
+        de.triggerEventHandler('click');
+        expect(spy.calls.count()).toBe(0);
+      });
+      it('should close and emit onEdit on save', () => {
+        const spy = spyOn(component.onEdit, 'emit');
+        const de = fixture.debugElement.query(
+          By.css('[data-testid="save-button"')
+        );
+        de.nativeElement.click();
+        expect(spy.calls.count()).toBe(1);
+        expect(spy.calls.first().args[0]).toEqual(newTask);
+      });
     });
   });
 
@@ -131,23 +186,23 @@ describe('TodoItemComponent', () => {
   });
   describe('closeEdit', () => {
     it('should set enableEdit to false', () => {
-      component.enableEdit = true;
+      component.isEnableEdit = true;
       fixture.detectChanges();
       component.closeEdit();
-      expect(component.enableEdit).toBeFalse();
+      expect(component.isEnableEdit).toBeFalse();
     });
   });
   describe('openEdit', () => {
     it('should set enableEdit to true', () => {
-      component.enableEdit = false;
+      component.isEnableEdit = false;
       fixture.detectChanges();
       component.openEdit();
-      expect(component.enableEdit).toBeTrue();
+      expect(component.isEnableEdit).toBeTrue();
     });
   });
   describe('onEditSave', () => {
     it('should emit onEdit with the updated task', () => {
-      component.enableEdit = true;
+      component.isEnableEdit = true;
       fixture.detectChanges();
       const spy = spyOn(component.onEdit, 'emit');
       const de = fixture.debugElement.query(By.directive(NgForm));
