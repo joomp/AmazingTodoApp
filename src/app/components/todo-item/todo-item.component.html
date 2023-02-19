@@ -1,63 +1,15 @@
-<li>
-  <ng-container *ngIf="!isEnableEdit; else editBlock">
-    <div class="list-item list-item--editDisabled">
-      <button (click)="onToggleDoneClick(task)" class="label task-button">
-        <app-done-indicator [done]="task.done" />
-        <span [class.done]="task.done" data-testid="text">
-          {{ task.text }}
-        </span>
-      </button>
-      <div class="controls">
-        <button
-          mat-mini-fab
-          color="primary"
-          (click)="openEdit()"
-          data-testid="edit-button">
-          <mat-icon aria-label="Edit button">edit</mat-icon>
-        </button>
-        <button
-          mat-mini-fab
-          color="primary"
-          (click)="onDeleteClick(task)"
-          data-testid="delete-button">
-          <mat-icon aria-label="Delete button">delete</mat-icon>
-        </button>
-      </div>
-    </div>
+<li class="list-item">
+  <ng-container *ngIf="!isEditMode; else editBlock">
+    <app-todo-item-content
+      [task]="task"
+      (onOpenEdit)="openEditMode()"
+      (onDelete)="handleDelete($event)"
+      (onToggleDone)="handleToggleDone($event)" />
   </ng-container>
-  <!-- This probs should be split into two separate components -->
   <ng-template #editBlock>
-    <div class="list-item list-item--editEnabled">
-      <form action="" class="edit-form" #f="ngForm" (ngSubmit)="onEditSave(f)">
-        <div class="wrap">
-          <mat-form-field
-            class="full-width"
-            appearance="fill"
-            subscriptSizing="dynamic">
-            <textarea
-              [(ngModel)]="editFormText"
-              name="edit"
-              matInput
-              cdkTextareaAutosize></textarea>
-          </mat-form-field>
-        </div>
-        <div class="controls">
-          <button
-            mat-stroked-button
-            color="warn"
-            (click)="closeEdit()"
-            data-testid="cancel-button">
-            Cancel
-          </button>
-          <button
-            mat-flat-button
-            color="primary"
-            type="submit"
-            data-testid="save-button">
-            Save
-          </button>
-        </div>
-      </form>
-    </div>
+    <app-todo-item-editor
+      [task]="task"
+      (onClose)="closeEditMode()"
+      (onEdit)="handleEdit($event)" />
   </ng-template>
 </li>

@@ -1,0 +1,32 @@
+<div>
+  <form action="" class="edit-form" #f="ngForm" (ngSubmit)="save(f)">
+    <div>
+      <mat-form-field
+        class="full-width"
+        appearance="fill"
+        subscriptSizing="dynamic">
+        <textarea
+          [(ngModel)]="editFormText"
+          name="edit"
+          matInput
+          cdkTextareaAutosize></textarea>
+      </mat-form-field>
+    </div>
+    <div class="controls">
+      <button
+        mat-stroked-button
+        color="warn"
+        (click)="closeEdit()"
+        data-testid="cancel-button">
+        Cancel
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        data-testid="save-button">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

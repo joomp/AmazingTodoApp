@@ -1,0 +1,19 @@
+.full-width {
+  width: 100%;
+}
+
+.edit-form {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  gap: 1ch;
+}
+
+.controls {
+  display: flex;
+  justify-content: end;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 4px;
+  margin: 4px 1ch;
+}

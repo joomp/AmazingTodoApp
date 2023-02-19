@@ -1,30 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input } from '@angular/core';
 import { TodoItemComponent } from './todo-item.component';
-import Task from 'src/app/Task';
 import { MaterialModule } from 'src/app/shared/modules/material/material.module';
+import { Component, Input } from '@angular/core';
+import Task from 'src/app/Task';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, NgForm } from '@angular/forms';
 
 describe('TodoItemComponent', () => {
   let component: TodoItemComponent;
   let fixture: ComponentFixture<TodoItemComponent>;
-  const testTaskDone: Task = {
-    text: 'Test task done',
-    id: 1,
-    done: true,
-  };
-  const testTaskNotDone: Task = {
-    text: 'Test not done',
-    id: 2,
+  let task = {
+    text: 'bla bla',
+    id: 0,
     done: false,
   };
-  let task = testTaskDone;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TodoItemComponent, StubDoneIndicatorComponent],
-      imports: [MaterialModule, FormsModule, NoopAnimationsModule],
+      declarations: [
+        TodoItemComponent,
+        StubTodoItemContent,
+        StubTodoItemEditor,
+      ],
+      imports: [MaterialModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TodoItemComponent);
@@ -36,193 +33,87 @@ describe('TodoItemComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  describe('edit disabled', () => {
-    describe('should display undone task properly', () => {
-      const task = testTaskNotDone;
-      beforeEach(async () => {
-        component.task = task;
-        fixture.detectChanges();
-      });
-      it('should have done indicator with false done attribute', () => {
-        const de = fixture.debugElement.query(
-          By.directive(StubDoneIndicatorComponent)
-        );
-        const comp = de.injector.get(StubDoneIndicatorComponent);
-        expect(comp.done).toBeFalse();
-      });
-      it('should use correct class for text', () => {
-        const el = fixture.debugElement.query(By.css('[data-testid="text"]'));
-        expect(el.classes).not.toEqual(
-          jasmine.objectContaining({ done: false })
-        );
-      });
-    });
 
-    describe('should display done task properly', () => {
-      beforeEach(async () => {
-        component.task = testTaskDone;
-        fixture.detectChanges();
-      });
-      it('should have done indicator with true done attribute', () => {
-        const de = fixture.debugElement.query(
-          By.directive(StubDoneIndicatorComponent)
-        );
-        const comp = de.injector.get(StubDoneIndicatorComponent);
-        expect(comp.done).toBeTrue();
-      });
-      it('should use correct class for text', () => {
-        const el = fixture.debugElement.query(By.css('[data-testid="text"]'));
-        expect(el.classes).toEqual(jasmine.objectContaining({ done: true }));
-      });
-    });
+  it('should show only the editor if in in edit mode', () => {
+    component.isEditMode = true;
+    fixture.detectChanges();
+    const de = fixture.debugElement.query(By.directive(StubTodoItemEditor));
+    const comp = de.injector.get(StubTodoItemEditor);
+    expect(comp.task).toEqual(task);
 
-    it('should have correct text', () => {
-      const de = fixture.debugElement.query(By.css('[data-testid="text"]'));
-      const textContent = de.nativeElement.textContent;
-      expect(textContent).toContain(task.text);
-    });
-    it('should call onToggleDoneClick when task-button is clicked', () => {
-      const spy = spyOn(component, 'onToggleDoneClick');
-      const de = fixture.debugElement.query(By.css('.task-button'));
-      de.triggerEventHandler('click');
-      expect(spy.calls.count()).toBe(1);
-      expect(spy.calls.first().args[0]).toEqual(task);
-    });
-    it('should call onDeleteClick when delete button is clicked', () => {
-      const spy = spyOn(component, 'onDeleteClick');
-      const de = fixture.debugElement.query(
-        By.css('[data-testid="delete-button"]')
-      );
-      de.triggerEventHandler('click');
-      expect(spy.calls.count()).toBe(1);
-      expect(spy.calls.first().args[0]).toEqual(task);
-    });
-    it('should call openEdit to true when edit button clicked', () => {
-      const spy = spyOn(component, 'openEdit');
-      const de = fixture.debugElement.query(
-        By.css('[data-testid="edit-button"]')
-      );
-      de.triggerEventHandler('click');
-      expect(spy.calls.count()).toBe(1);
+    const content = fixture.debugElement.query(
+      By.directive(StubTodoItemContent)
+    );
+    expect(content).toBeNull();
+  });
+
+  it('should show only the content if not in edit mode', () => {
+    component.isEditMode = false;
+    fixture.detectChanges();
+    const de = fixture.debugElement.query(By.directive(StubTodoItemContent));
+    const comp = de.injector.get(StubTodoItemContent);
+    expect(comp.task).toEqual(task);
+
+    const editor = fixture.debugElement.query(By.directive(StubTodoItemEditor));
+    expect(editor).toBeNull();
+  });
+
+  describe('openEditMode', () => {
+    it('should set is edit mode to true', () => {
+      component.isEditMode = false;
+      component.openEditMode();
+      expect(component.isEditMode).toBeTrue();
     });
   });
 
-  describe('edit enabled', () => {
-    beforeEach(async () => {
-      component.isEnableEdit = true;
-      fixture.detectChanges();
-      await fixture.whenStable();
-    });
-    it('should have same text as the original task', () => {
-      const de = fixture.debugElement.query(By.css('textarea'));
-      const textContent = de.nativeElement.value;
-      expect(textContent).toContain(task.text);
-    });
-    describe('pristine textarea', () => {
-      it('should close and not emit onEdit on cancel', () => {
-        const spy = spyOn(component.onEdit, 'emit');
-        const de = fixture.debugElement.query(
-          By.css('[data-testid="cancel-button"')
-        );
-        de.triggerEventHandler('click');
-        expect(spy.calls.count()).toBe(0);
-      });
-      it('should close and emit onEdit on save', () => {
-        const spy = spyOn(component.onEdit, 'emit');
-        const de = fixture.debugElement.query(
-          By.css('[data-testid="save-button"')
-        );
-        de.nativeElement.click();
-        expect(spy.calls.count()).toBe(1);
-        expect(spy.calls.first().args[0]).toEqual(task);
-      });
-    });
-    describe('edited textarea', () => {
-      const newTask = {
-        ...task,
-        text: 'This is the new and edited tasks text',
-      };
-      beforeEach(() => {
-        const input = fixture.debugElement.query(By.css('textarea'));
-        input.nativeElement.value = newTask.text;
-        fixture.detectChanges();
-        input.nativeElement.dispatchEvent(new Event('input'));
-      });
-      it('should close and not emit onEdit on cancel', () => {
-        const spy = spyOn(component.onEdit, 'emit');
-        const de = fixture.debugElement.query(
-          By.css('[data-testid="cancel-button"')
-        );
-        de.triggerEventHandler('click');
-        expect(spy.calls.count()).toBe(0);
-      });
-      it('should close and emit onEdit on save', () => {
-        const spy = spyOn(component.onEdit, 'emit');
-        const de = fixture.debugElement.query(
-          By.css('[data-testid="save-button"')
-        );
-        de.nativeElement.click();
-        expect(spy.calls.count()).toBe(1);
-        expect(spy.calls.first().args[0]).toEqual(newTask);
-      });
+  describe('closeEditMode', () => {
+    it('should set is edit mode to false', () => {
+      component.isEditMode = true;
+      component.closeEditMode();
+      expect(component.isEditMode).toBeFalse();
     });
   });
 
-  describe('onDeleteClick', () => {
-    it('should emit onDelete with the task', () => {
-      const spy = spyOn(component.onDelete, 'emit');
-      component.onDeleteClick(task);
-      expect(spy.calls.count()).toBe(1);
-      expect(spy.calls.first().args[0]).toEqual(task);
-    });
-  });
-  describe('onToggleDoneClick', () => {
-    it('should emit onToggleDone with the task', () => {
+  describe('handleToggleDone', () => {
+    it('should emit onToggleDone', () => {
       const spy = spyOn(component.onToggleDone, 'emit');
-      component.onToggleDoneClick(task);
+      component.handleToggleDone(task);
       expect(spy.calls.count()).toBe(1);
       expect(spy.calls.first().args[0]).toEqual(task);
     });
   });
-  describe('closeEdit', () => {
-    it('should set enableEdit to false', () => {
-      component.isEnableEdit = true;
-      fixture.detectChanges();
-      component.closeEdit();
-      expect(component.isEnableEdit).toBeFalse();
-    });
-  });
-  describe('openEdit', () => {
-    it('should set enableEdit to true', () => {
-      component.isEnableEdit = false;
-      fixture.detectChanges();
-      component.openEdit();
-      expect(component.isEnableEdit).toBeTrue();
-    });
-  });
-  describe('onEditSave', () => {
-    it('should emit onEdit with the updated task', () => {
-      component.isEnableEdit = true;
-      fixture.detectChanges();
-      const spy = spyOn(component.onEdit, 'emit');
-      const de = fixture.debugElement.query(By.directive(NgForm));
-      const comp = de.injector.get(NgForm);
 
-      const newText = 'This is the new edited task text';
-      comp.value.edit = newText;
-      fixture.detectChanges();
-
-      component.onEditSave(comp);
+  describe('handleDelete', () => {
+    it('should emit onDelete', () => {
+      const spy = spyOn(component.onDelete, 'emit');
+      component.handleDelete(task);
       expect(spy.calls.count()).toBe(1);
-      expect(spy.calls.first().args[0]!.text).toEqual(newText);
+      expect(spy.calls.first().args[0]).toEqual(task);
+    });
+  });
+
+  describe('handleEdit', () => {
+    it('should emit onEdit', () => {
+      const spy = spyOn(component.onEdit, 'emit');
+      component.handleEdit(task);
+      expect(spy.calls.count()).toBe(1);
+      expect(spy.calls.first().args[0]).toEqual(task);
     });
   });
 });
 
 @Component({
-  selector: 'app-done-indicator',
+  selector: 'app-todo-item-content',
   template: '',
 })
-class StubDoneIndicatorComponent {
-  @Input() done!: boolean;
+class StubTodoItemContent {
+  @Input() task!: Task;
+}
+
+@Component({
+  selector: 'app-todo-item-editor',
+  template: '',
+})
+class StubTodoItemEditor {
+  @Input() task!: Task;
 }

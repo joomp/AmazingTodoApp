@@ -10,9 +10,9 @@
         <app-todo-item
           [task]="task"
           *ngFor="let task of todos"
-          (onToggleDone)="onToggleDone($event)"
-          (onDelete)="onDeleteTask($event)"
-          (onEdit)="onEdit($event)"></app-todo-item>
+          (onToggleDone)="handleToggleDone($event)"
+          (onDelete)="handleDeleteTask($event)"
+          (onEdit)="handleEdit($event)"></app-todo-item>
       </ul>
       <div *ngIf="!todos.length">There is nothing to do</div>
     </section>
@@ -22,9 +22,9 @@
         <app-todo-item
           [task]="task"
           *ngFor="let task of dones"
-          (onToggleDone)="onToggleDone($event)"
-          (onDelete)="onDeleteTask($event)"
-          (onEdit)="onEdit($event)"></app-todo-item>
+          (onToggleDone)="handleToggleDone($event)"
+          (onDelete)="handleDeleteTask($event)"
+          (onEdit)="handleEdit($event)"></app-todo-item>
       </ul>
       <div *ngIf="!dones.length">No done tasks</div>
     </section>

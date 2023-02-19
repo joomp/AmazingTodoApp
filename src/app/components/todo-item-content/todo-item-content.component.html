@@ -1,0 +1,24 @@
+<div class="layout">
+  <button (click)="handleToggleDone()" class="label task-button">
+    <app-done-indicator [done]="task.done" />
+    <span [class.done]="task.done" data-testid="text">
+      {{ task.text }}
+    </span>
+  </button>
+  <div class="controls">
+    <button
+      mat-mini-fab
+      color="primary"
+      (click)="handleOpenEdit()"
+      data-testid="edit-button">
+      <mat-icon aria-label="Edit button">edit</mat-icon>
+    </button>
+    <button
+      mat-mini-fab
+      color="primary"
+      (click)="handleDelete()"
+      data-testid="delete-button">
+      <mat-icon aria-label="Delete button">delete</mat-icon>
+    </button>
+  </div>
+</div>

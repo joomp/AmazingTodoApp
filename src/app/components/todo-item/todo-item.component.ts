@@ -1,5 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import Task from 'src/app/Task';
 
 @Component({
@@ -7,39 +6,31 @@ import Task from 'src/app/Task';
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.scss'],
 })
-export class TodoItemComponent implements OnInit {
+export class TodoItemComponent {
   @Input() task!: Task;
-  @Output() onDelete: EventEmitter<Task> = new EventEmitter();
   @Output() onToggleDone: EventEmitter<Task> = new EventEmitter();
+  @Output() onDelete: EventEmitter<Task> = new EventEmitter();
   @Output() onEdit: EventEmitter<Task> = new EventEmitter();
 
-  isEnableEdit: boolean = false;
-  editFormText = '';
+  isEditMode: boolean = false;
 
-  ngOnInit(): void {
-    this.editFormText = this.task.text;
+  openEditMode() {
+    this.isEditMode = true;
   }
 
-  onDeleteClick(task: Task) {
-    this.onDelete.emit(task);
+  closeEditMode() {
+    this.isEditMode = false;
   }
 
-  onToggleDoneClick(task: Task) {
+  handleToggleDone(task: Task) {
     this.onToggleDone.emit(task);
   }
 
-  closeEdit() {
-    this.isEnableEdit = false;
+  handleDelete(task: Task) {
+    this.onDelete.emit(task);
   }
 
-  openEdit() {
-    this.editFormText = this.task.text;
-    this.isEnableEdit = true;
-  }
-
-  onEditSave(f: NgForm) {
-    const newTask: Task = { ...this.task, text: f.value.edit };
-    this.onEdit.emit(newTask);
-    this.closeEdit();
+  handleEdit(task: Task) {
+    this.onEdit.emit(task);
   }
 }

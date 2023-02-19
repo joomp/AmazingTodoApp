@@ -1,0 +1,57 @@
+.label {
+  cursor: pointer;
+}
+
+.label:hover {
+  filter: brightness(70%);
+}
+
+.label:active {
+  filter: brightness(50%);
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 4px;
+  margin: 4px 1ch;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: inherit;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1ch;
+}
+
+.task-button {
+  // Remove button styles
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  text-align: inherit;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1ch;
+}
+
+.task-button:focus {
+  outline: orange 5px auto;
+}

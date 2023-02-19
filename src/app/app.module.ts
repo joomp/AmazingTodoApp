@@ -15,6 +15,8 @@ import { AddTaskButton } from './components/add-task-button/add-task-button.comp
 import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
 import { DoneIndicatorComponent } from './components/done-indicator/done-indicator.component';
 import { INITIAL_TASKS } from './services/task.service';
+import { TodoItemEditorComponent } from './components/todo-item-editor/todo-item-editor.component';
+import { TodoItemContentComponent } from './components/todo-item-content/todo-item-content.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { INITIAL_TASKS } from './services/task.service';
     AddTaskButton,
     AddTaskDialogComponent,
     DoneIndicatorComponent,
+    TodoItemEditorComponent,
+    TodoItemContentComponent,
   ],
   imports: [
     BrowserModule,

@@ -30,19 +30,19 @@ export class MainContentComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onDeleteTask(task: Task) {
+  handleDeleteTask(task: Task) {
     this.taskService.deleteTask(task.id);
   }
 
-  onToggleDone(task: Task) {
+  handleToggleDone(task: Task) {
     this.taskService.toggleDone(task.id);
   }
 
-  onAddTask(text: string) {
+  handleAddTask(text: string) {
     this.taskService.addTask(text);
   }
 
-  onEdit(task: Task) {
+  handleEdit(task: Task) {
     this.taskService.updateTaskText(task.id, task.text);
   }
 }
