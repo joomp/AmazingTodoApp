@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/shared/modules/material/material.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgForm } from '@angular/forms';
+import { TaskService } from 'src/app/services/task.service';
 
 describe('TodoItemEditorComponent', () => {
   let component: TodoItemEditorComponent;
@@ -18,10 +19,14 @@ describe('TodoItemEditorComponent', () => {
     done: true,
   };
 
+  let taskServiceSpy: jasmine.SpyObj<TaskService>;
+
   beforeEach(async () => {
+    taskServiceSpy = jasmine.createSpyObj('TaskService', ['updateTaskText']);
     await TestBed.configureTestingModule({
       declarations: [TodoItemEditorComponent],
       imports: [FormsModule, MaterialModule, NoopAnimationsModule],
+      providers: [{ provide: TaskService, useValue: taskServiceSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TodoItemEditorComponent);
@@ -44,24 +49,24 @@ describe('TodoItemEditorComponent', () => {
     expect(textContent).toContain(task.text);
   });
   describe('pristine textarea', () => {
-    it('should close and emit onClose and not emit onEdit on cancel', () => {
-      const spyEdit = spyOn(component.onEdit, 'emit');
+    it('should emit onClose and emit onClose and not save changes on cancel button click', () => {
+      const spySave = spyOn(component, 'save').and.callThrough();
       const spyClose = spyOn(component.onClose, 'emit');
       const de = fixture.debugElement.query(
         By.css('[data-testid="cancel-button"')
       );
       de.triggerEventHandler('click');
-      expect(spyEdit.calls.count()).toBe(0);
+      expect(spySave.calls.count()).toBe(0);
       expect(spyClose.calls.count()).toBe(1);
     });
-    it('should close and emit onEdit and onSave on save', () => {
-      const spyEdit = spyOn(component.onEdit, 'emit');
+    it('should emit onClose and emit onEdit and save on save button click', () => {
+      const spySave = spyOn(component, 'save').and.callThrough();
       const spyClose = spyOn(component.onClose, 'emit');
       const de = fixture.debugElement.query(
         By.css('[data-testid="save-button"')
       );
       de.nativeElement.click();
-      expect(spyEdit.calls.count()).toBe(1);
+      expect(spySave.calls.count()).toBe(1);
       expect(spyClose.calls.count()).toBe(1);
     });
   });
@@ -76,26 +81,25 @@ describe('TodoItemEditorComponent', () => {
       fixture.detectChanges();
       input.nativeElement.dispatchEvent(new Event('input'));
     });
-    it('should close and not emit onEdit on cancel', () => {
-      const spyEdit = spyOn(component.onEdit, 'emit');
+    it('should emit onClose and not save on cancel button click', () => {
+      const spySave = spyOn(component, 'save').and.callThrough();
       const spyClose = spyOn(component.onClose, 'emit');
       const de = fixture.debugElement.query(
         By.css('[data-testid="cancel-button"')
       );
       de.triggerEventHandler('click');
-      expect(spyEdit.calls.count()).toBe(0);
+      expect(spySave.calls.count()).toBe(0);
       expect(spyClose.calls.count()).toBe(1);
     });
-    it('should close and emit onEdit on save', () => {
-      const spyEdit = spyOn(component.onEdit, 'emit');
+    it('should emit onClose and save on save button click', () => {
+      const spySave = spyOn(component, 'save').and.callThrough();
       const spyClose = spyOn(component.onClose, 'emit');
       const de = fixture.debugElement.query(
         By.css('[data-testid="save-button"')
       );
       de.nativeElement.click();
-      expect(spyEdit.calls.count()).toBe(1);
+      expect(spySave.calls.count()).toBe(1);
       expect(spyClose.calls.count()).toBe(1);
-      expect(spyEdit.calls.first().args[0]).toEqual(newTask);
     });
   });
 
@@ -109,18 +113,44 @@ describe('TodoItemEditorComponent', () => {
   });
 
   describe('save', () => {
-    it('should emit onEdit with the updated task', () => {
-      const spy = spyOn(component.onEdit, 'emit');
+    it('should call taskService.updateTaskText with the changed task text', () => {
+      const newTask = {
+        ...task,
+        text: 'This is the new and edited tasks text',
+      };
+
+      const input = fixture.debugElement.query(By.css('textarea'));
+      input.nativeElement.value = newTask.text;
+      fixture.detectChanges();
+      input.nativeElement.dispatchEvent(new Event('input'));
+
       const de = fixture.debugElement.query(By.directive(NgForm));
       const comp = de.injector.get(NgForm);
-
-      const newText = 'This is the new edited task text';
-      comp.value.edit = newText;
-      fixture.detectChanges();
+      const saveButton = fixture.debugElement.query(
+        By.css('[data-testid="save-button"')
+      );
+      saveButton.nativeElement.click();
 
       component.save(comp);
-      expect(spy.calls.count()).toBe(1);
-      expect(spy.calls.first().args[0]!.text).toEqual(newText);
+      expect(taskServiceSpy.updateTaskText).toHaveBeenCalledWith(
+        newTask.id,
+        newTask.text
+      );
     });
+  });
+
+  it('should call taskService.updateTaskText with unchanged task text', () => {
+    const de = fixture.debugElement.query(By.directive(NgForm));
+    const comp = de.injector.get(NgForm);
+    const saveButton = fixture.debugElement.query(
+      By.css('[data-testid="save-button"')
+    );
+    saveButton.nativeElement.click();
+
+    component.save(comp);
+    expect(taskServiceSpy.updateTaskText).toHaveBeenCalledWith(
+      task.id,
+      task.text
+    );
   });
 });

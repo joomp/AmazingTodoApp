@@ -5,6 +5,7 @@ import Task from 'src/app/Task';
 import { Component, Input } from '@angular/core';
 import { MaterialModule } from 'src/app/shared/modules/material/material.module';
 import { By } from '@angular/platform-browser';
+import { TaskService } from 'src/app/services/task.service';
 
 describe('TodoItemContentComponent', () => {
   let component: TodoItemContentComponent;
@@ -20,11 +21,18 @@ describe('TodoItemContentComponent', () => {
     done: false,
   };
 
-  let task = testTaskDone;
+  let task: Task;
+  let taskServiceSpy: jasmine.SpyObj<TaskService>;
+
   beforeEach(async () => {
+    taskServiceSpy = jasmine.createSpyObj('TaskService', [
+      'toggleDone',
+      'deleteTask',
+    ]);
     await TestBed.configureTestingModule({
       declarations: [TodoItemContentComponent, StubDoneIndicatorComponent],
       imports: [MaterialModule],
+      providers: [{ provide: TaskService, useValue: taskServiceSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TodoItemContentComponent);
@@ -74,56 +82,30 @@ describe('TodoItemContentComponent', () => {
       expect(el.classes).toEqual(jasmine.objectContaining({ done: true }));
     });
   });
-
   it('should have correct text', () => {
     const de = fixture.debugElement.query(By.css('[data-testid="text"]'));
     const textContent = de.nativeElement.textContent;
     expect(textContent).toContain(task.text);
   });
-  it('should call handleToggleDone when task-button is clicked', () => {
-    const spy = spyOn(component, 'handleToggleDone');
+  it('should call taskService.toggleDone when task-button is clicked', () => {
     const de = fixture.debugElement.query(By.css('.task-button'));
-    de.triggerEventHandler('click');
-    expect(spy.calls.count()).toBe(1);
+    de.nativeElement.click();
+    expect(taskServiceSpy.toggleDone).toHaveBeenCalledWith(task.id);
   });
-  it('should call handleDelete when delete button is clicked', () => {
-    const spy = spyOn(component, 'handleDelete');
+  it('should call taskService.deleteTask when delete button is clicked', () => {
     const de = fixture.debugElement.query(
       By.css('[data-testid="delete-button"]')
     );
-    de.triggerEventHandler('click');
-    expect(spy.calls.count()).toBe(1);
+    de.nativeElement.click();
+    expect(taskServiceSpy.deleteTask).toHaveBeenCalledWith(task.id);
   });
-  it('should call handleOpenEdit to true when edit button clicked', () => {
+  it('should emit onOpenEdit when edit button clicked', () => {
     const spy = spyOn(component, 'handleOpenEdit');
     const de = fixture.debugElement.query(
       By.css('[data-testid="edit-button"]')
     );
     de.triggerEventHandler('click');
     expect(spy.calls.count()).toBe(1);
-  });
-
-  describe('handleDelete', () => {
-    it('should emit onDelete with the task', () => {
-      const spy = spyOn(component.onDelete, 'emit');
-      component.handleDelete();
-      expect(spy.calls.count()).toBe(1);
-    });
-  });
-  describe('handleToggleDone', () => {
-    it('should emit onToggleDone with the task', () => {
-      const spy = spyOn(component.onToggleDone, 'emit');
-      component.handleToggleDone();
-      expect(spy.calls.count()).toBe(1);
-      expect(spy.calls.first().args[0]).toEqual(task);
-    });
-  });
-  describe('handleOpenEdit', () => {
-    it('should emit onOpenEdit', () => {
-      const spy = spyOn(component.onOpenEdit, 'emit');
-      component.handleOpenEdit();
-      expect(spy.calls.count()).toBe(1);
-    });
   });
 });
 

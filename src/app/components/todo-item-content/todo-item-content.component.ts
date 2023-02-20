@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { TaskService } from 'src/app/services/task.service';
 import Task from 'src/app/Task';
 
 @Component({
@@ -8,16 +9,16 @@ import Task from 'src/app/Task';
 })
 export class TodoItemContentComponent {
   @Input() task!: Task;
-  @Output() onDelete: EventEmitter<Task> = new EventEmitter();
   @Output() onOpenEdit: EventEmitter<void> = new EventEmitter();
-  @Output() onToggleDone: EventEmitter<Task> = new EventEmitter();
+
+  constructor(private taskService: TaskService) {}
 
   handleDelete() {
-    this.onDelete.emit(this.task);
+    this.taskService.deleteTask(this.task.id);
   }
 
   handleToggleDone() {
-    this.onToggleDone.emit(this.task);
+    this.taskService.toggleDone(this.task.id);
   }
 
   handleOpenEdit() {

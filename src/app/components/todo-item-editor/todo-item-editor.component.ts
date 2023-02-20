@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import Task from 'src/app/Task';
 import { NgForm } from '@angular/forms';
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-todo-item-editor',
@@ -10,9 +11,10 @@ import { NgForm } from '@angular/forms';
 export class TodoItemEditorComponent {
   @Input() task!: Task;
   @Output() onClose: EventEmitter<void> = new EventEmitter();
-  @Output() onEdit: EventEmitter<Task> = new EventEmitter();
 
   editFormText = '';
+
+  constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
     this.editFormText = this.task.text;
@@ -23,8 +25,8 @@ export class TodoItemEditorComponent {
   }
 
   save(f: NgForm) {
-    const newTask: Task = { ...this.task, text: f.value.edit };
-    this.onEdit.emit(newTask);
+    const newText = f.value.edit;
+    this.taskService.updateTaskText(this.task.id, newText);
     this.closeEdit();
   }
 }

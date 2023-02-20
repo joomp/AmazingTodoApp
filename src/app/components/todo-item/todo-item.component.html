@@ -1,15 +1,8 @@
 <li class="list-item">
   <ng-container *ngIf="!isEditMode; else editBlock">
-    <app-todo-item-content
-      [task]="task"
-      (onOpenEdit)="openEditMode()"
-      (onDelete)="handleDelete($event)"
-      (onToggleDone)="handleToggleDone($event)" />
+    <app-todo-item-content [task]="task" (onOpenEdit)="openEditMode()" />
   </ng-container>
   <ng-template #editBlock>
-    <app-todo-item-editor
-      [task]="task"
-      (onClose)="closeEditMode()"
-      (onEdit)="handleEdit($event)" />
+    <app-todo-item-editor [task]="task" (onClose)="closeEditMode()" />
   </ng-template>
 </li>

@@ -7,24 +7,14 @@
       </div>
 
       <ul *ngIf="todos.length">
-        <app-todo-item
-          [task]="task"
-          *ngFor="let task of todos"
-          (onToggleDone)="handleToggleDone($event)"
-          (onDelete)="handleDeleteTask($event)"
-          (onEdit)="handleEdit($event)"></app-todo-item>
+        <app-todo-item [task]="task" *ngFor="let task of todos"></app-todo-item>
       </ul>
       <div *ngIf="!todos.length">There is nothing to do</div>
     </section>
     <section>
       <h2>Done:</h2>
       <ul *ngIf="dones.length">
-        <app-todo-item
-          [task]="task"
-          *ngFor="let task of dones"
-          (onToggleDone)="handleToggleDone($event)"
-          (onDelete)="handleDeleteTask($event)"
-          (onEdit)="handleEdit($event)"></app-todo-item>
+        <app-todo-item [task]="task" *ngFor="let task of dones"></app-todo-item>
       </ul>
       <div *ngIf="!dones.length">No done tasks</div>
     </section>

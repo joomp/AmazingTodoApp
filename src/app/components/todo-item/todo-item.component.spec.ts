@@ -73,33 +73,6 @@ describe('TodoItemComponent', () => {
       expect(component.isEditMode).toBeFalse();
     });
   });
-
-  describe('handleToggleDone', () => {
-    it('should emit onToggleDone', () => {
-      const spy = spyOn(component.onToggleDone, 'emit');
-      component.handleToggleDone(task);
-      expect(spy.calls.count()).toBe(1);
-      expect(spy.calls.first().args[0]).toEqual(task);
-    });
-  });
-
-  describe('handleDelete', () => {
-    it('should emit onDelete', () => {
-      const spy = spyOn(component.onDelete, 'emit');
-      component.handleDelete(task);
-      expect(spy.calls.count()).toBe(1);
-      expect(spy.calls.first().args[0]).toEqual(task);
-    });
-  });
-
-  describe('handleEdit', () => {
-    it('should emit onEdit', () => {
-      const spy = spyOn(component.onEdit, 'emit');
-      component.handleEdit(task);
-      expect(spy.calls.count()).toBe(1);
-      expect(spy.calls.first().args[0]).toEqual(task);
-    });
-  });
 });
 
 @Component({
