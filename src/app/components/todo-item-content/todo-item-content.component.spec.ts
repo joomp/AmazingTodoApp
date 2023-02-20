@@ -100,7 +100,7 @@ describe('TodoItemContentComponent', () => {
     expect(taskServiceSpy.deleteTask).toHaveBeenCalledWith(task.id);
   });
   it('should emit onOpenEdit when edit button clicked', () => {
-    const spy = spyOn(component, 'handleOpenEdit');
+    const spy = spyOn(component.onOpenEdit, 'emit');
     const de = fixture.debugElement.query(
       By.css('[data-testid="edit-button"]')
     );

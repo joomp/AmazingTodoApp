@@ -9,14 +9,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('AddTaskDialogComponent', () => {
   let component: AddTaskDialogComponent;
   let fixture: ComponentFixture<AddTaskDialogComponent>;
+  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<AddTaskDialogComponent>>;
 
   beforeEach(async () => {
+    dialogRefSpy = jasmine.createSpyObj(
+      'MatDialogRef<AddTaskDialogComponent>>',
+      ['close']
+    );
     await TestBed.configureTestingModule({
       declarations: [AddTaskDialogComponent],
       imports: [MaterialModule, FormsModule, BrowserAnimationsModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: { text: '' } },
-        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: dialogRefSpy },
       ],
     }).compileComponents();
 
@@ -27,5 +32,12 @@ describe('AddTaskDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onCancelClick', () => {
+    it('should call dialog.close on cancel click', () => {
+      component.onCancelClick();
+      expect(dialogRefSpy.close).toHaveBeenCalled();
+    });
   });
 });
